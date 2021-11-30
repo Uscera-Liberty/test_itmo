@@ -23,7 +23,7 @@ def send_description(message):
 def send_description(message):
     try:
         number = message.text
-        local_connection = sqlite3.connect('INFO2.db')
+        local_connection = sqlite3.connect('PhoneBook.db')
         local_cursor = local_connection.cursor()
         local_cursor.execute("INSERT OR IGNORE INTO users VALUES(? ,? , ? );",
                              (message.chat.id, message.from_user.first_name , number))
