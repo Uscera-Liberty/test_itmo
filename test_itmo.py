@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('PhoneBook.sqlite')
+connection = sqlite3.connect('PB.sqlite')
 cursor = connection.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS contacts(
     fio TEXT,
@@ -15,23 +15,23 @@ class PhoneBook:
         self.book = {}
 
     def addPerson(self,fio , born , num):
-        local_connection = sqlite3.connect('PhoneBook.db')
+        local_connection = sqlite3.connect('PB.sqlite')
         local_cursor = local_connection.cursor()
-        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(? , ?, ?);",
+        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(?,?,?);",
                              (fio, born, num))
         local_connection.commit()
         all_results = local_cursor.fetchall()
         return all_results
 
     def find(self, name):
-        local_connection = sqlite3.connect('PhoneBook.db')
+        local_connection = sqlite3.connect('PB.sqlite')
         local_cursor = local_connection.cursor()
         local_cursor.execute("SELECT * FROM contacts WHERE name = name")
         all_results = local_cursor.fetchall()
         return all_results
 
     def info(self):
-        local_connection = sqlite3.connect('PhoneBook.db')
+        local_connection = sqlite3.connect('PB.sqlite')
         local_cursor = local_connection.cursor()
         local_cursor.execute("SELECT * FROM contacts")
         all_results = local_cursor.fetchall()

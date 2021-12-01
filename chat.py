@@ -8,7 +8,7 @@ bot = telebot.TeleBot(token)
 
 connection = sqlite3.connect('PhoneBook.db')
 cursor = connection.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS users(
+cursor.execute("""CREATE TABLE IF NOT EXISTS contacts(
     userChatId INT PRIMARY KEY,
     userName TEXT,
     userContactNumber TEXT);
@@ -25,7 +25,7 @@ def send_description(message):
         number = message.text
         local_connection = sqlite3.connect('PhoneBook.db')
         local_cursor = local_connection.cursor()
-        local_cursor.execute("INSERT OR IGNORE INTO users VALUES(? ,? , ? );",
+        local_cursor.execute("INSERT OR IGNORE INTO PhoneBook VALUES(? ,? , ? );",
                              (message.chat.id, message.from_user.first_name , number))
         local_connection.commit()
         bot.send_message(message.chat.id, "Приятно познакомится ," + str(message.from_user.first_name))
