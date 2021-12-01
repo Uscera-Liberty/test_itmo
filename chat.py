@@ -25,7 +25,7 @@ def send_description(message):
         number = message.text
         local_connection = sqlite3.connect('PhoneBook.db')
         local_cursor = local_connection.cursor()
-        local_cursor.execute("INSERT OR IGNORE INTO PhoneBook VALUES(? ,? , ? );",
+        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(? ,? , ? );",
                              (message.chat.id, message.from_user.first_name , number))
         local_connection.commit()
         bot.send_message(message.chat.id, "Приятно познакомится ," + str(message.from_user.first_name))
@@ -38,7 +38,7 @@ def check(message):
     name_person = message.text
     local_connection = sqlite3.connect('PhoneBook.db')
     local_cursor = local_connection.cursor()
-    local_cursor.execute("SELECT * FROM PhoneBook WHERE userName = name_person")
+    local_cursor.execute("SELECT * FROM contacts WHERE userName = name_person")
     all_results = local_cursor.fetchall()
     if all_results != None:
         bot.send_message(message.chat.id, str(all_results))
