@@ -1,26 +1,30 @@
 import sqlite3
 
-connection = sqlite3.connect('PhoneBook.db')
+connection = sqlite3.connect('PhoneBook.sqlite')
 cursor = connection.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS users(
-    userChatId INT PRIMARY KEY,
-    userName TEXT,
-    userContactNumber TEXT);
+cursor.execute("""CREATE TABLE IF NOT EXISTS contacts(
+    Id INT PRIMARY KEY,
+    fio TEXT,
+    born TEXT,
+    num TEXT);
     """)
 connection.commit()
 
 class PhoneBook:
 
     def __init__(self):
-        self.book = {}
+        self.fio = fio
+        self.born = born
+        self.num = num
 
     def addPerson(self,fio , born , num):
         local_connection = sqlite3.connect('PhoneBook.db')
         local_cursor = local_connection.cursor()
-        local_cursor.execute("INSERT OR IGNORE INTO users VALUES(? ,? , ? );",
+        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(? ,? , ? );",
                              (fio, born, num))
         local_connection.commit()
-        return self.book
+        all_results = local_cursor.fetchall()
+        return all_results
 
     def find(self, name):
         local_connection = sqlite3.connect('PhoneBook.db')
@@ -59,12 +63,10 @@ while True:
             print("Please confirm values")
 
     elif command == '2':
-        name = input("Введите имя контакта >:  ")
+        name = input("Введите фамилию контакта >:  ")
         print(book.find(name))
 
     elif command == '3':
-        for name, data in book.info():
-            data = ' '.join(data)
-            print(name, data)
+        print(book.info())
     else:
         print('неизвестная команда')
