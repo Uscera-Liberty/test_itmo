@@ -3,7 +3,6 @@ import sqlite3
 connection = sqlite3.connect('PhoneBook.sqlite')
 cursor = connection.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS contacts(
-    Id INT PRIMARY KEY,
     fio TEXT,
     born TEXT,
     num TEXT);
@@ -13,14 +12,12 @@ connection.commit()
 class PhoneBook:
 
     def __init__(self):
-        self.fio = fio
-        self.born = born
-        self.num = num
+        self.book = {}
 
     def addPerson(self,fio , born , num):
         local_connection = sqlite3.connect('PhoneBook.db')
         local_cursor = local_connection.cursor()
-        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(? ,? , ? );",
+        local_cursor.execute("INSERT OR IGNORE INTO contacts VALUES(? , ?, ?);",
                              (fio, born, num))
         local_connection.commit()
         all_results = local_cursor.fetchall()
@@ -58,7 +55,7 @@ while True:
             fio = str(input("Фамилия: "))
             born = str(input("Дата рождения: "))
             num = int(input("Номер телефона: "))
-            print(book.addPerson(fio, [born, num]))
+            print(book.addPerson(fio,born, num))
         except ValueError:
             print("Please confirm values")
 
